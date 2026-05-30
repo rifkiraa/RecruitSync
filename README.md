@@ -56,4 +56,4 @@ Karena tidak ada sistem _backend_ atau rantai _build_ (build-chain) yang diperlu
 |                          Dashboard HR Admin                          |                             Dashboard Interviewer                              |
 | :------------------------------------------------------------------: | :----------------------------------------------------------------------------: |
 | <img width="1366" height="607" alt="hradmin" src="https://github.com/user-attachments/assets/d27ba291-0439-4059-8131-3a37e422b81a" /> | <img width="1366" height="607" alt="interviewer" src="https://github.com/user-attachments/assets/2ab7bc17-7262-4f53-87e0-84aa0cddb242" />
- |
+|
