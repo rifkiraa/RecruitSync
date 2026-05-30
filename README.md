@@ -7,7 +7,7 @@
 
 **RecruitSync** adalah purwarupa _Applicant Tracking System_ (ATS) berbasis _Single-Page Application_ (SPA) yang dirancang untuk mensimulasikan alur kerja rekrutmen Enterprise.
 
-> **💡 Keunikan Proyek:** Aplikasi ini dibangun sepenuhnya di dalam **satu file HTML tunggal (`dashboard.html`)** tanpa memerlukan proses _build_ (tanpa Node.js, Webpack, Vite, atau NPM). Sangat portabel dan berjalan langsung di peramban (browser)!
+> **Link Proyek:** https://recruitsync.vercel.app/
 
 ## ✨ Fitur Utama
 
@@ -41,10 +41,6 @@ Keseluruhan sistem berada di dalam file `dashboard.html`, dengan segmentasi komp
   - `CareersBoardTab()` - _Frontend_ publik untuk pendaftaran pelamar.
 - **Fitur Overlay (Modal):**
   - `JobFormModal()`, `CandidateDetailModal()`, `ScheduleInterviewModal()`.
-
-## Link
-
-https://recruitsync.vercel.app/
 
 ## 📸 Tangkapan Layar (Screenshots)
 
