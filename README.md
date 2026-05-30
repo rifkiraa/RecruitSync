@@ -42,14 +42,9 @@ Keseluruhan sistem berada di dalam file `dashboard.html`, dengan segmentasi komp
 - **Fitur Overlay (Modal):**
   - `JobFormModal()`, `CandidateDetailModal()`, `ScheduleInterviewModal()`.
 
-## 🚀 Cara Menjalankan
+## Link
 
-Karena tidak ada sistem _backend_ atau rantai _build_ (build-chain) yang diperlukan, menjalankan aplikasi ini sangat mudah:
-
-1. **Unduh atau _Clone_** repositori ini ke komputer Anda.
-2. Buka folder proyek.
-3. Klik ganda pada file **`index.html`** (atau seret file tersebut ke Google Chrome / Firefox / Edge / Safari).
-4. Aplikasi akan langsung berjalan. Anda dapat masuk dengan kredensial _dummy_ apa saja (formulir sudah terisi otomatis).
+https://recruitsync.vercel.app/
 
 ## 📸 Tangkapan Layar (Screenshots)
 
