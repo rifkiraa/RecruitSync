@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RecruitSync Enterprise</title>
 
-    <!-- React & ReactDOM -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <!-- Babel -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts: Inter -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
@@ -429,66 +425,6 @@
             ></path>
           </svg>
         ),
-        Mail: () => (
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-            ></path>
-          </svg>
-        ),
-        Phone: () => (
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-            ></path>
-          </svg>
-        ),
-        MapPin: () => (
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M17.657 16.657L13 21.343l-4.657-4.657M14 10a4 4 0 11-8 0 4 4 0 018 0z"
-            ></path>
-          </svg>
-        ),
-        Dollar: () => (
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            ></path>
-          </svg>
-        ),
         Shield: () => (
           <svg
             className="w-5 h-5"
@@ -501,6 +437,21 @@
               strokeLinejoin="round"
               strokeWidth="2"
               d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+            ></path>
+          </svg>
+        ),
+        Menu: () => (
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16M4 18h16"
             ></path>
           </svg>
         ),
@@ -517,6 +468,7 @@
             },
         );
         const [activeTab, setActiveTab] = useState("dashboard");
+        const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile Menu State
         const [jobs, setJobs] = useState(
           () => JSON.parse(localStorage.getItem("rs_jobs")) || initialJobs,
         );
@@ -550,21 +502,29 @@
         });
 
         // Synchronize with LocalStorage
-        useEffect(() => {
-          localStorage.setItem("rs_auth", JSON.stringify(auth));
-        }, [auth]);
-        useEffect(() => {
-          localStorage.setItem("rs_jobs", JSON.stringify(jobs));
-        }, [jobs]);
-        useEffect(() => {
-          localStorage.setItem("rs_candidates", JSON.stringify(candidates));
-        }, [candidates]);
-        useEffect(() => {
-          localStorage.setItem("rs_interviews", JSON.stringify(interviews));
-        }, [interviews]);
-        useEffect(() => {
-          localStorage.setItem("rs_activities", JSON.stringify(activities));
-        }, [activities]);
+        useEffect(
+          () => localStorage.setItem("rs_auth", JSON.stringify(auth)),
+          [auth],
+        );
+        useEffect(
+          () => localStorage.setItem("rs_jobs", JSON.stringify(jobs)),
+          [jobs],
+        );
+        useEffect(
+          () =>
+            localStorage.setItem("rs_candidates", JSON.stringify(candidates)),
+          [candidates],
+        );
+        useEffect(
+          () =>
+            localStorage.setItem("rs_interviews", JSON.stringify(interviews)),
+          [interviews],
+        );
+        useEffect(
+          () =>
+            localStorage.setItem("rs_activities", JSON.stringify(activities)),
+          [activities],
+        );
 
         // Toast System Trigger
         const triggerToast = (message) => {
@@ -581,6 +541,11 @@
           setActivities((prev) => [newAct, ...prev.slice(0, 15)]);
         };
 
+        const handleNavClick = (tab) => {
+          setActiveTab(tab);
+          setIsSidebarOpen(false); // Auto close sidebar on mobile after clicking
+        };
+
         if (!auth.loggedIn) {
           return (
             <LoginPage
@@ -593,9 +558,19 @@
         }
 
         return (
-          <div className="flex h-screen overflow-hidden bg-slate-50 text-slate-900">
+          <div className="flex h-screen overflow-hidden bg-slate-50 text-slate-900 relative">
+            {/* OVERLAY FOR MOBILE SIDEBAR */}
+            {isSidebarOpen && (
+              <div
+                className="fixed inset-0 bg-slate-900/50 z-20 md:hidden backdrop-blur-sm"
+                onClick={() => setIsSidebarOpen(false)}
+              ></div>
+            )}
+
             {/* SIDEBAR COMPONENT */}
-            <aside className="w-64 bg-slate-900 text-white flex flex-col shadow-2xl z-20">
+            <aside
+              className={`fixed md:static inset-y-0 left-0 transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 transition-transform duration-300 ease-in-out w-64 bg-slate-900 text-white flex flex-col shadow-2xl z-30 shrink-0`}
+            >
               <div className="p-6 border-b border-slate-800 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-indigo-600 rounded-xl flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-600/30">
@@ -608,10 +583,10 @@
               </div>
 
               {/* Navigation Tabs */}
-              <nav className="flex-1 px-4 space-y-1.5 mt-6">
+              <nav className="flex-1 px-4 space-y-1.5 mt-6 overflow-y-auto">
                 <SidebarItem
                   active={activeTab === "dashboard"}
-                  onClick={() => setActiveTab("dashboard")}
+                  onClick={() => handleNavClick("dashboard")}
                   icon={<Icons.Layout />}
                   label="Dashboard"
                 />
@@ -619,13 +594,13 @@
                   <>
                     <SidebarItem
                       active={activeTab === "jobs"}
-                      onClick={() => setActiveTab("jobs")}
+                      onClick={() => handleNavClick("jobs")}
                       icon={<Icons.Briefcase />}
                       label="Job Management"
                     />
                     <SidebarItem
                       active={activeTab === "pipeline"}
-                      onClick={() => setActiveTab("pipeline")}
+                      onClick={() => handleNavClick("pipeline")}
                       icon={<Icons.Users />}
                       label="Candidate Pipeline"
                     />
@@ -633,14 +608,14 @@
                 )}
                 <SidebarItem
                   active={activeTab === "scheduler"}
-                  onClick={() => setActiveTab("scheduler")}
+                  onClick={() => handleNavClick("scheduler")}
                   icon={<Icons.Calendar />}
                   label="Interview Scheduler"
                 />
                 {auth.role === "Interviewer" && (
                   <SidebarItem
                     active={activeTab === "careers"}
-                    onClick={() => setActiveTab("careers")}
+                    onClick={() => handleNavClick("careers")}
                     icon={<Icons.Globe />}
                     label="Public Job Board"
                   />
@@ -658,20 +633,13 @@
                       const nextRole =
                         auth.role === "Admin" ? "Interviewer" : "Admin";
                       setAuth((p) => ({ ...p, role: nextRole }));
-
-                      // Jika berubah menjadi Interviewer, tendang dari tab khusus Admin (jobs, pipeline)
                       if (
                         nextRole === "Interviewer" &&
                         ["jobs", "pipeline"].includes(activeTab)
-                      ) {
+                      )
                         setActiveTab("dashboard");
-                      }
-
-                      // Jika berubah menjadi Admin, tendang dari tab khusus Interviewer (careers)
-                      if (nextRole === "Admin" && activeTab === "careers") {
+                      if (nextRole === "Admin" && activeTab === "careers")
                         setActiveTab("dashboard");
-                      }
-
                       triggerToast(`Role dialihkan ke ${nextRole}`);
                     }}
                     className="text-indigo-400 hover:underline hover:text-indigo-300 font-medium"
@@ -680,7 +648,7 @@
                   </button>
                 </div>
                 <div className="bg-slate-800/80 rounded-xl p-3 flex items-center gap-3 mb-3">
-                  <div className="w-9 h-9 rounded-full bg-indigo-500 flex items-center justify-center font-bold text-sm text-white">
+                  <div className="w-9 h-9 rounded-full bg-indigo-500 flex items-center justify-center font-bold text-sm text-white shrink-0">
                     WF
                   </div>
                   <div className="overflow-hidden">
@@ -693,9 +661,7 @@
                   </div>
                 </div>
                 <button
-                  onClick={() => {
-                    setAuth({ loggedIn: false, role: "Admin" });
-                  }}
+                  onClick={() => setAuth({ loggedIn: false, role: "Admin" })}
                   className="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all"
                 >
                   <Icons.LogOut /> Logout
@@ -704,21 +670,27 @@
             </aside>
 
             {/* MAIN PAGE PLATFORM CONTAINER */}
-            <main className="flex-1 flex flex-col h-screen overflow-hidden">
+            <main className="flex-1 flex flex-col h-screen overflow-hidden w-full">
               {/* Main Header bar */}
-              <header className="h-16 glass-effect border-b border-slate-200/80 flex items-center justify-between px-8 z-10 sticky top-0">
+              <header className="h-16 glass-effect border-b border-slate-200/80 flex items-center justify-between px-4 md:px-8 z-10 sticky top-0">
                 <div className="flex items-center gap-3">
-                  <h2 className="text-lg font-bold text-slate-800 capitalize tracking-tight">
+                  <button
+                    className="md:hidden text-slate-600 hover:text-slate-900 transition-colors"
+                    onClick={() => setIsSidebarOpen(true)}
+                  >
+                    <Icons.Menu />
+                  </button>
+                  <h2 className="text-lg font-bold text-slate-800 capitalize tracking-tight truncate">
                     {activeTab === "careers" ? "Public Job Board" : activeTab}
                   </h2>
                 </div>
-                <div className="text-sm text-slate-500 font-medium bg-slate-100 px-3.5 py-1.5 rounded-full shadow-inner">
+                <div className="text-xs md:text-sm text-slate-500 font-medium bg-slate-100 px-3.5 py-1.5 rounded-full shadow-inner shrink-0">
                   May 30, 2026
                 </div>
               </header>
 
               {/* Component Tab View Router */}
-              <div className="flex-1 overflow-y-auto p-8 custom-scroll">
+              <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scroll">
                 {activeTab === "dashboard" && (
                   <DashboardTab
                     jobs={jobs}
@@ -755,7 +727,7 @@
                     setInterviews={setInterviews}
                     candidates={candidates}
                     triggerToast={triggerToast}
-                    role={auth.role} /* Props role ditambahkan di sini */
+                    role={auth.role}
                   />
                 )}
                 {activeTab === "careers" && auth.role === "Interviewer" && (
@@ -802,13 +774,13 @@
             )}
 
             {/* Toast Notification Container */}
-            <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2">
+            <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-[90%] md:max-w-none">
               {toasts.map((t) => (
                 <div
                   key={t.id}
                   className="animate-fade-in flex items-center gap-3 bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl border border-slate-700/50"
                 >
-                  <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold text-xs">
+                  <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold text-xs shrink-0">
                     ✓
                   </div>
                   <p className="text-xs font-semibold tracking-wide">
@@ -844,7 +816,7 @@
             <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px]"></div>
             <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[120px]"></div>
 
-            <div className="bg-white/95 rounded-2xl shadow-2xl border border-slate-100 max-w-md w-full p-10 z-10 backdrop-blur-md">
+            <div className="bg-white/95 rounded-2xl shadow-2xl border border-slate-100 max-w-md w-[95%] md:w-full p-6 md:p-10 z-10 backdrop-blur-md">
               <div className="text-center mb-8">
                 <div className="w-12 h-12 bg-indigo-600 text-white rounded-xl flex items-center justify-center font-bold text-2xl mx-auto shadow-xl shadow-indigo-600/20 mb-4">
                   R
@@ -882,7 +854,6 @@
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 transition-all font-medium"
                   />
                 </div>
-
                 <button
                   type="submit"
                   disabled={isLoading}
@@ -897,7 +868,7 @@
               </form>
 
               <div className="mt-6 pt-5 border-t border-slate-100 text-center">
-                <span className="text-[10px] text-slate-400 bg-slate-50 px-3 py-1.5 rounded-md font-medium">
+                <span className="text-[10px] text-slate-400 bg-slate-50 px-3 py-1.5 rounded-md font-medium block md:inline">
                   Dummy Auth Mode: Pengisian bebas diperbolehkan.
                 </span>
               </div>
@@ -927,16 +898,15 @@
           return { activeJ, totalC, hiredC, interviewC, conversion };
         }, [jobs, candidates]);
 
-        // Jika Interviewer, filter jadwal hanya untuk jadwal yang berstatus Scheduled
-        const interviewerSchedule = useMemo(() => {
-          return interviews.filter((i) => i.status === "Scheduled");
-        }, [interviews]);
+        const interviewerSchedule = useMemo(
+          () => interviews.filter((i) => i.status === "Scheduled"),
+          [interviews],
+        );
 
         return (
           <div className="space-y-8 animate-fade-in">
-            {/* Jika Admin, tampilkan metrik penuh. Jika Interviewer, tampilkan kartu sapaan sederhana */}
             {role === "Admin" ? (
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                 <StatCard
                   title="Pekerjaan Aktif"
                   value={metrics.activeJ}
@@ -963,8 +933,8 @@
                 />
               </div>
             ) : (
-              <div className="bg-indigo-900 p-8 rounded-2xl shadow-sm border border-slate-200 text-white">
-                <h2 className="text-2xl font-bold mb-2">
+              <div className="bg-indigo-900 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 text-white">
+                <h2 className="text-xl md:text-2xl font-bold mb-2">
                   Halo, Interviewer! 👋
                 </h2>
                 <p className="text-indigo-200 text-sm">
@@ -975,11 +945,10 @@
             )}
 
             <div
-              className={`grid grid-cols-1 ${role === "Admin" ? "lg:grid-cols-3" : "lg:grid-cols-1"} gap-6`}
+              className={`grid grid-cols-1 ${role === "Admin" ? "lg:grid-cols-3" : "lg:grid-cols-1"} gap-4 md:gap-6`}
             >
-              {/* Analitik Pipeline hanya untuk Admin */}
               {role === "Admin" && (
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                <div className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
                   <div>
                     <h3 className="text-sm font-bold text-slate-900 tracking-tight mb-1">
                       Analitik Konversi Pipeline
@@ -989,12 +958,9 @@
                     </p>
                   </div>
                   <div className="space-y-4">
-                    {/* Progress bar logic (Sama seperti sebelumnya) */}
                     <div>
                       <div className="flex justify-between text-xs font-semibold mb-1.5">
-                        <span className="text-slate-600">
-                          Applied (Pendaftaran Baru)
-                        </span>
+                        <span className="text-slate-600">Applied (Baru)</span>
                         <span className="text-slate-900">
                           {
                             candidates.filter((c) => c.stage === "Applied")
@@ -1012,9 +978,7 @@
                     </div>
                     <div>
                       <div className="flex justify-between text-xs font-semibold mb-1.5">
-                        <span className="text-slate-600">
-                          Interview (Wawancara)
-                        </span>
+                        <span className="text-slate-600">Interview</span>
                         <span className="text-slate-900">
                           {metrics.interviewC} Pelamar
                         </span>
@@ -1030,11 +994,9 @@
                     </div>
                     <div>
                       <div className="flex justify-between text-xs font-semibold mb-1.5">
-                        <span className="text-slate-600">
-                          Hired (Berhasil Diterima)
-                        </span>
+                        <span className="text-slate-600">Hired (Diterima)</span>
                         <span className="text-slate-900">
-                          {metrics.hiredC} Anggota Baru
+                          {metrics.hiredC} Anggota
                         </span>
                       </div>
                       <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
@@ -1048,8 +1010,7 @@
                 </div>
               )}
 
-              {/* Jadwal Wawancara (Ditampilkan untuk Admin dan Interviewer) */}
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+              <div className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-200">
                 <h3 className="text-sm font-bold text-slate-900 tracking-tight mb-1">
                   {role === "Admin"
                     ? "Interview Mendatang"
@@ -1075,7 +1036,7 @@
                             <span className="text-xs font-bold text-slate-800">
                               {i.candidateName}
                             </span>
-                            <span className="text-[10px] bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md font-bold">
+                            <span className="text-[10px] bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md font-bold shrink-0">
                               {i.time}
                             </span>
                           </div>
@@ -1095,9 +1056,8 @@
                 </div>
               </div>
 
-              {/* Aktivitas Log HR Hanya untuk Admin */}
               {role === "Admin" && (
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-200">
                   <h3 className="text-sm font-bold text-slate-900 tracking-tight mb-1">
                     Aktivitas Terbaru
                   </h3>
@@ -1129,7 +1089,6 @@
         );
       }
 
-      // Helper StatCard Dashboard
       function StatCard({ title, value, desc, color }) {
         return (
           <div
@@ -1147,7 +1106,7 @@
       }
 
       // ==========================================
-      // 3. JOB MANAGEMENT TAB (COMPREHENSIVE ACTION)
+      // 3. JOB MANAGEMENT TAB
       // ==========================================
       function JobManagementTab({
         jobs,
@@ -1162,10 +1121,10 @@
         const [deptFilter, setDeptFilter] = useState("All");
         const [sortBy, setSortBy] = useState("newest");
 
-        // Filter Departments uniquely
-        const departments = useMemo(() => {
-          return ["All", ...new Set(jobs.map((j) => j.department))];
-        }, [jobs]);
+        const departments = useMemo(
+          () => ["All", ...new Set(jobs.map((j) => j.department))],
+          [jobs],
+        );
 
         const processJobs = useMemo(() => {
           let result = jobs.filter((j) => {
@@ -1178,42 +1137,32 @@
               deptFilter === "All" || j.department === deptFilter;
             return matchesSearch && matchesStatus && matchesDept;
           });
-
           if (sortBy === "newest") result.sort((a, b) => b.id - a.id);
           if (sortBy === "oldest") result.sort((a, b) => a.id - b.id);
           if (sortBy === "applicants")
             result.sort((a, b) => b.applicants - a.applicants);
-
           return result;
         }, [jobs, searchQuery, statusFilter, deptFilter, sortBy]);
 
         const handleDeleteJob = (id, title) => {
           if (role !== "Admin") {
-            alert(
-              "Aksi Ditolak: Hanya akun dengan peran Admin yang dapat menghapus pekerjaan!",
-            );
+            alert("Aksi Ditolak: Hanya Admin!");
             return;
           }
           if (
-            confirm(
-              `Apakah Anda yakin ingin menghapus lowongan kerja "${title}"? Tindakan ini permanen.`,
-            )
+            confirm(`Apakah Anda yakin ingin menghapus lowongan "${title}"?`)
           ) {
             setJobs((prev) => prev.filter((j) => j.id !== id));
             triggerToast(`Lowongan ${title} berhasil dihapus.`);
-            addActivity(
-              `Lowongan pekerjaan "${title}" dihapus permanen oleh Admin`,
-              "job",
-            );
+            addActivity(`Lowongan "${title}" dihapus permanen`, "job");
           }
         };
 
         return (
           <div className="space-y-6 animate-fade-in">
-            {/* Controls Bar */}
-            <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap gap-4 items-center justify-between">
-              <div className="flex flex-wrap gap-3 items-center flex-1 max-w-4xl">
-                <div className="relative w-64">
+            <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3 items-center w-full md:w-auto">
+                <div className="relative w-full sm:w-64">
                   <span className="absolute inset-y-0 left-3 flex items-center text-slate-400">
                     <Icons.Search />
                   </span>
@@ -1225,60 +1174,42 @@
                     className="pl-9 pr-4 py-2 w-full bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 transition-all font-medium"
                   />
                 </div>
-
-                <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 text-xs font-bold p-2 rounded-xl outline-none focus:bg-white"
-                >
-                  <option value="All">Semua Status</option>
-                  <option value="Active">Aktif</option>
-                  <option value="Closed">Tutup</option>
-                </select>
-
-                <select
-                  value={deptFilter}
-                  onChange={(e) => setDeptFilter(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 text-xs font-bold p-2 rounded-xl outline-none focus:bg-white"
-                >
-                  {departments.map((d) => (
-                    <option key={d} value={d}>
-                      {d === "All" ? "Semua Departemen" : d}
-                    </option>
-                  ))}
-                </select>
-
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 text-xs font-bold p-2 rounded-xl outline-none focus:bg-white"
-                >
-                  <option value="newest">Terbaru</option>
-                  <option value="oldest">Terlawas</option>
-                  <option value="applicants">Pelamar Terbanyak</option>
-                </select>
+                <div className="flex gap-2 w-full sm:w-auto">
+                  <select
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="w-full sm:w-auto bg-slate-50 border border-slate-200 text-xs font-bold p-2 rounded-xl outline-none focus:bg-white"
+                  >
+                    <option value="All">Semua Status</option>
+                    <option value="Active">Aktif</option>
+                    <option value="Closed">Tutup</option>
+                  </select>
+                  <select
+                    value={deptFilter}
+                    onChange={(e) => setDeptFilter(e.target.value)}
+                    className="w-full sm:w-auto bg-slate-50 border border-slate-200 text-xs font-bold p-2 rounded-xl outline-none focus:bg-white"
+                  >
+                    {departments.map((d) => (
+                      <option key={d} value={d}>
+                        {d === "All" ? "Semua Divisi" : d}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-
               <button
-                onClick={() => {
-                  if (role !== "Admin") {
-                    alert(
-                      "Aksi Ditolak: Hanya Admin yang dapat mempublikasikan lowongan baru!",
-                    );
-                    return;
-                  }
-                  setJobModal({ open: true, mode: "add", data: null });
-                }}
-                className={`text-xs font-bold text-white px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md transition-all ${role === "Admin" ? "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/10" : "bg-slate-400 cursor-not-allowed"}`}
+                onClick={() =>
+                  setJobModal({ open: true, mode: "add", data: null })
+                }
+                className={`w-full md:w-auto justify-center text-xs font-bold text-white px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md transition-all ${role === "Admin" ? "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/10" : "bg-slate-400 cursor-not-allowed"}`}
               >
-                <Icons.Plus /> Buka Lowongan Baru
+                <Icons.Plus /> Buka Lowongan
               </button>
             </div>
 
-            {/* Job List Table Container */}
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
+                <table className="w-full text-left border-collapse min-w-[700px]">
                   <thead>
                     <tr className="bg-slate-50 border-b border-slate-200 text-[10px] uppercase text-slate-400 font-bold tracking-wider">
                       <th className="p-4 pl-6">Detail Pekerjaan</th>
@@ -1286,8 +1217,8 @@
                       <th className="p-4">Tipe & Lokasi</th>
                       <th className="p-4">Ekspektasi Gaji</th>
                       <th className="p-4">Status</th>
-                      <th className="p-4 text-center">Total Pelamar</th>
-                      <th className="p-4 pr-6 text-right">Aksi Kelola</th>
+                      <th className="p-4 text-center">Pelamar</th>
+                      <th className="p-4 pr-6 text-right">Aksi</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 text-xs font-medium text-slate-700">
@@ -1297,7 +1228,7 @@
                           colSpan="7"
                           className="p-10 text-center text-slate-400"
                         >
-                          Tidak ada lowongan ditemukan sesuai filter.
+                          Tidak ada lowongan.
                         </td>
                       </tr>
                     ) : (
@@ -1311,7 +1242,7 @@
                               {job.title}
                             </p>
                             <p className="text-[10px] text-slate-400 font-semibold mt-0.5">
-                              ID: JOB-{job.id} • Dibuka {job.date}
+                              ID: JOB-{job.id} • {job.date}
                             </p>
                           </td>
                           <td className="p-4 text-slate-600">
@@ -1339,21 +1270,14 @@
                           <td className="p-4 pr-6 text-right">
                             <div className="inline-flex gap-1.5">
                               <button
-                                onClick={() => {
-                                  if (role !== "Admin") {
-                                    alert(
-                                      "Aksi Ditolak: Hanya Admin yang dapat mengedit lowongan!",
-                                    );
-                                    return;
-                                  }
+                                onClick={() =>
                                   setJobModal({
                                     open: true,
                                     mode: "edit",
                                     data: job,
-                                  });
-                                }}
-                                className="p-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
-                                title="Edit Lowongan"
+                                  })
+                                }
+                                className="p-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
                               >
                                 <Icons.Pencil />
                               </button>
@@ -1361,8 +1285,7 @@
                                 onClick={() =>
                                   handleDeleteJob(job.id, job.title)
                                 }
-                                className="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
-                                title="Hapus Lowongan"
+                                className="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg"
                               >
                                 <Icons.Trash />
                               </button>
@@ -1380,7 +1303,7 @@
       }
 
       // ==========================================
-      // 4. CANDIDATE PIPELINE KANBAN (DRAG AND DROP)
+      // 4. CANDIDATE PIPELINE KANBAN
       // ==========================================
       function PipelineTab({
         candidates,
@@ -1395,19 +1318,16 @@
         const [selectedJobId, setSelectedJobId] = useState("All");
         const [draggedCandId, setDraggedCandId] = useState(null);
 
-        // Filtering candidates based on Job Opening selected
         const filteredCandidates = useMemo(() => {
           if (selectedJobId === "All") return candidates;
           return candidates.filter((c) => c.jobId === Number(selectedJobId));
         }, [candidates, selectedJobId]);
 
-        // Drag And Drop Handlers
         const onDragStart = (e, id) => {
           setDraggedCandId(id);
           e.dataTransfer.effectAllowed = "move";
           e.target.style.opacity = "0.4";
         };
-
         const onDragEnd = (e) => {
           e.target.style.opacity = "1";
           setDraggedCandId(null);
@@ -1415,33 +1335,27 @@
             .querySelectorAll(".kanban-column-zone")
             .forEach((el) => el.classList.remove("drag-over"));
         };
-
         const onDragOver = (e) => {
           e.preventDefault();
           e.currentTarget.classList.add("drag-over");
         };
-
         const onDragLeave = (e) => {
           e.currentTarget.classList.remove("drag-over");
         };
-
         const onDrop = (e, targetStage) => {
           e.preventDefault();
           e.currentTarget.classList.remove("drag-over");
           if (!draggedCandId) return;
-
           const candidate = candidates.find((c) => c.id === draggedCandId);
           if (candidate && candidate.stage !== targetStage) {
-            // Automated Trigger: simulate email trigger context window popup logic
-            const updated = candidates.map((c) =>
-              c.id === draggedCandId ? { ...c, stage: targetStage } : c,
+            setCandidates(
+              candidates.map((c) =>
+                c.id === draggedCandId ? { ...c, stage: targetStage } : c,
+              ),
             );
-            setCandidates(updated);
-            triggerToast(
-              `Status ${candidate.name} diperbarui ke ${targetStage}`,
-            );
+            triggerToast(`Status ${candidate.name} menjadi ${targetStage}`);
             addActivity(
-              `Kandidat ${candidate.name} dipindahkan ke gerbang tahap "${targetStage}"`,
+              `Kandidat ${candidate.name} dipindah ke "${targetStage}"`,
               "candidate",
             );
           }
@@ -1449,16 +1363,15 @@
 
         return (
           <div className="space-y-6 h-full flex flex-col animate-fade-in">
-            {/* Header Filtering bar */}
-            <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between flex-wrap gap-4">
-              <div>
+            <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="w-full sm:w-auto">
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                   Saring Pipeline Lowongan
                 </p>
                 <select
                   value={selectedJobId}
                   onChange={(e) => setSelectedJobId(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 text-xs font-bold p-2 rounded-xl mt-1.5 outline-none focus:bg-white w-64"
+                  className="bg-slate-50 border border-slate-200 text-xs font-bold p-2 rounded-xl mt-1.5 outline-none focus:bg-white w-full sm:w-64"
                 >
                   <option value="All">Semua Pekerjaan Terbuka</option>
                   {jobs.map((j) => (
@@ -1468,17 +1381,15 @@
                   ))}
                 </select>
               </div>
-              <div className="text-right text-xs font-medium text-slate-400">
+              <div className="text-left sm:text-right text-xs font-medium text-slate-400">
                 💡{" "}
                 <em>
-                  Tips: Tahan dan seret kartu kandidat untuk memindahkan tahapan
-                  seleksi.
+                  Tips: Tahan dan seret kartu kandidat untuk pindah tahap.
                 </em>
               </div>
             </div>
 
-            {/* Kanban Columns Flexboard wrapper */}
-            <div className="flex gap-6 flex-1 overflow-x-auto pb-4 custom-scroll items-start">
+            <div className="flex gap-4 md:gap-6 flex-1 overflow-x-auto pb-4 custom-scroll items-start snap-x snap-mandatory">
               {stages.map((stage) => {
                 const list = filteredCandidates.filter(
                   (c) => c.stage === stage,
@@ -1486,12 +1397,11 @@
                 return (
                   <div
                     key={stage}
-                    className="kanban-column-zone flex-1 min-w-[320px] max-w-[400px] bg-slate-100/70 border border-slate-200 rounded-2xl flex flex-col transition-all duration-200"
                     onDragOver={onDragOver}
                     onDragLeave={onDragLeave}
                     onDrop={(e) => onDrop(e, stage)}
+                    className="kanban-column-zone snap-center shrink-0 w-[85vw] sm:w-[320px] max-w-[400px] bg-slate-100/70 border border-slate-200 rounded-2xl flex flex-col transition-all duration-200"
                   >
-                    {/* Stage Title Header */}
                     <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-white/50 rounded-t-2xl">
                       <h4 className="font-bold text-xs tracking-wide text-slate-700 uppercase flex items-center gap-2">
                         {stage === "Applied" && (
@@ -1503,19 +1413,13 @@
                         {stage === "Hired" && (
                           <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-sm"></div>
                         )}
-                        {stage === "Applied"
-                          ? "Pendaftaran (Applied)"
-                          : stage === "Interview"
-                            ? "Wawancara (Interview)"
-                            : "Diterima (Hired)"}
+                        {stage}
                       </h4>
                       <span className="bg-white border text-slate-800 font-extrabold text-xs px-2.5 py-0.5 rounded-full shadow-sm">
                         {list.length}
                       </span>
                     </div>
-
-                    {/* Scrollable Container Cards Area */}
-                    <div className="p-4 flex-1 overflow-y-auto custom-scroll space-y-3 min-h-[450px]">
+                    <div className="p-3 md:p-4 flex-1 overflow-y-auto custom-scroll space-y-3 min-h-[400px]">
                       {list.map((cand) => (
                         <div
                           key={cand.id}
@@ -1528,7 +1432,7 @@
                           className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-indigo-400 transition-all cursor-grab active:cursor-grabbing group animate-fade-in"
                         >
                           <div className="flex items-center gap-3 mb-3">
-                            <div className="w-9 h-9 rounded-full bg-indigo-50 text-indigo-700 font-bold text-xs flex items-center justify-center">
+                            <div className="w-9 h-9 rounded-full bg-indigo-50 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0">
                               {cand.avatar}
                             </div>
                             <div className="overflow-hidden">
@@ -1540,7 +1444,6 @@
                               </p>
                             </div>
                           </div>
-
                           <div className="space-y-1.5 text-[10px] text-slate-500 font-medium pt-2 border-t border-slate-100">
                             <p className="truncate flex items-center gap-1.5">
                               ✉️ {cand.email}
@@ -1549,8 +1452,6 @@
                               📅 Masuk: {cand.appliedDate}
                             </p>
                           </div>
-
-                          {/* Interactive quick action overlay helper inside card */}
                           <div className="mt-3 pt-2.5 border-t border-slate-100 flex gap-2 justify-end">
                             {stage === "Interview" && (
                               <button
@@ -1561,21 +1462,20 @@
                                     candidate: cand,
                                   });
                                 }}
-                                className="bg-amber-50 hover:bg-amber-100 text-amber-800 text-[9px] font-bold px-2 py-1 rounded-md border border-amber-200 transition-all"
+                                className="bg-amber-50 hover:bg-amber-100 text-amber-800 text-[9px] font-bold px-2 py-1 rounded-md border border-amber-200"
                               >
                                 🗓 Atur Jadwal
                               </button>
                             )}
-                            <span className="text-[9px] text-slate-400 font-bold ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
-                              Klik Detail →
+                            <span className="text-[9px] text-slate-400 font-bold ml-auto md:opacity-0 group-hover:opacity-100 transition-opacity">
+                              Detail →
                             </span>
                           </div>
                         </div>
                       ))}
-
                       {list.length === 0 && (
                         <div className="text-center p-8 text-xs font-semibold text-slate-400 border-2 border-dashed border-slate-200 rounded-xl bg-slate-50/40">
-                          Letakkan kandidat di sini
+                          Kosong
                         </div>
                       )}
                     </div>
@@ -1595,46 +1495,42 @@
         setInterviews,
         candidates,
         triggerToast,
-        role, // Tambahkan penerimaan props role
+        role,
       }) {
         const handleCancelInterview = (id, candName) => {
-          if (role !== "Admin") return; // Lapis keamanan tambahan
-          if (
-            confirm(
-              `Apakah Anda yakin ingin membatalkan jadwal interview untuk ${candName}?`,
-            )
-          ) {
+          if (role !== "Admin") return;
+          if (confirm(`Batalkan jadwal interview ${candName}?`)) {
             setInterviews((prev) => prev.filter((i) => i.id !== id));
-            triggerToast(`Jadwal interview ${candName} dibatalkan.`);
+            triggerToast(`Jadwal ${candName} dibatalkan.`);
           }
         };
 
         const handleMarkCompleted = (id) => {
-          if (role !== "Admin") return; // Lapis keamanan tambahan
+          if (role !== "Admin") return;
           setInterviews((prev) =>
             prev.map((i) => (i.id === id ? { ...i, status: "Completed" } : i)),
           );
-          triggerToast("Status interview diperbarui ke Selesai.");
+          triggerToast("Status diperbarui ke Selesai.");
         };
 
-        // Interviewer hanya melihat jadwal yang statusnya 'Scheduled' (aktif)
-        const displayInterviews = useMemo(() => {
-          return role === "Admin"
-            ? interviews
-            : interviews.filter((i) => i.status === "Scheduled");
-        }, [interviews, role]);
+        const displayInterviews = useMemo(
+          () =>
+            role === "Admin"
+              ? interviews
+              : interviews.filter((i) => i.status === "Scheduled"),
+          [interviews, role],
+        );
 
         return (
           <div className="space-y-6 animate-fade-in">
-            <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+            <div className="bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-slate-200">
               <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">
                 {role === "Admin"
-                  ? "Agenda Wawancara Aktif Terjadwal"
+                  ? "Agenda Wawancara Aktif"
                   : "Daftar Wawancara Anda"}
               </h3>
-
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse text-xs">
+                <table className="w-full text-left border-collapse text-xs min-w-[700px]">
                   <thead>
                     <tr className="bg-slate-50 text-slate-400 font-bold border-b border-slate-200 uppercase text-[10px]">
                       <th className="p-4 pl-5">Nama Kandidat</th>
@@ -1643,7 +1539,6 @@
                       <th className="p-4">Pewawancara</th>
                       <th className="p-4">Format</th>
                       <th className="p-4">Status</th>
-                      {/* Kolom aksi hanya dirender untuk Admin */}
                       {role === "Admin" && (
                         <th className="p-4 pr-5 text-right">Tindakan</th>
                       )}
@@ -1656,7 +1551,7 @@
                           colSpan={role === "Admin" ? "7" : "6"}
                           className="p-8 text-center text-slate-400"
                         >
-                          Belum ada agenda wawancara terbuat.
+                          Belum ada agenda wawancara.
                         </td>
                       </tr>
                     ) : (
@@ -1672,7 +1567,7 @@
                           <td className="p-4 font-semibold text-slate-900">
                             <div>📅 {inv.date}</div>
                             <div className="text-[10px] text-slate-400 font-bold mt-0.5">
-                              ⏰ Jam {inv.time} WIB
+                              ⏰ Jam {inv.time}
                             </div>
                           </td>
                           <td className="p-4 text-slate-600">
@@ -1692,14 +1587,13 @@
                                 : "Selesai"}
                             </span>
                           </td>
-                          {/* Tombol eksekusi hanya dirender untuk Admin */}
                           {role === "Admin" && (
                             <td className="p-4 pr-5 text-right">
                               {inv.status === "Scheduled" ? (
                                 <div className="inline-flex gap-2">
                                   <button
                                     onClick={() => handleMarkCompleted(inv.id)}
-                                    className="bg-emerald-600 text-white px-2 py-1 rounded text-[10px] font-bold hover:bg-emerald-700 transition-all"
+                                    className="bg-emerald-600 text-white px-2 py-1 rounded text-[10px] font-bold hover:bg-emerald-700"
                                   >
                                     Selesai
                                   </button>
@@ -1710,7 +1604,7 @@
                                         inv.candidateName,
                                       )
                                     }
-                                    className="bg-slate-100 text-slate-600 px-2 py-1 rounded text-[10px] font-bold hover:bg-rose-50 hover:text-rose-600 transition-all"
+                                    className="bg-slate-100 text-slate-600 px-2 py-1 rounded text-[10px] font-bold hover:bg-rose-50 hover:text-rose-600"
                                   >
                                     Batal
                                   </button>
@@ -1734,7 +1628,7 @@
       }
 
       // ==========================================
-      // 6. PUBLIC JOB BOARD TAB (SIMULATION SUITE)
+      // 6. PUBLIC JOB BOARD TAB
       // ==========================================
       function CareersBoardTab({
         jobs,
@@ -1752,7 +1646,6 @@
         const handleFormSubmitApplication = (e) => {
           e.preventDefault();
           const fData = new FormData(e.target);
-
           const newCandidate = {
             id: Date.now(),
             name: fData.get("cand_name"),
@@ -1762,16 +1655,13 @@
             jobId: applyJob.id,
             stage: "Applied",
             avatar: fData.get("cand_name").substring(0, 2).toUpperCase(),
-            notes: ["Pendaftaran mandiri melalui Halaman Karir Publik."],
+            notes: ["Pendaftaran mandiri melalui Halaman Karir."],
             appliedDate: new Date().toISOString().split("T")[0],
           };
-
           setCandidates((prev) => [newCandidate, ...prev]);
-          triggerToast(
-            `Sukses! Lamaran Anda untuk ${applyJob.title} telah dikirim.`,
-          );
+          triggerToast(`Sukses! Lamaran ${applyJob.title} terkirim.`);
           addActivity(
-            `Pelamar baru "${newCandidate.name}" mendaftar mandiri via Portal Karir`,
+            `Pelamar baru "${newCandidate.name}" mendaftar`,
             "candidate",
           );
           setApplyJob(null);
@@ -1779,41 +1669,40 @@
 
         return (
           <div className="space-y-6 animate-fade-in">
-            <div className="bg-indigo-900 text-white p-6 rounded-2xl shadow-md relative overflow-hidden">
-              <div className="absolute top-0 right-0 opacity-10 text-9xl transform translate-x-10 translate-y-[-20%] font-extrabold">
+            <div className="bg-indigo-900 text-white p-5 md:p-6 rounded-2xl shadow-md relative overflow-hidden">
+              <div className="absolute top-0 right-0 opacity-10 text-7xl md:text-9xl transform translate-x-10 translate-y-[-20%] font-extrabold">
                 CAREERS
               </div>
-              <h3 className="text-xl font-bold">
+              <h3 className="text-lg md:text-xl font-bold relative z-10">
                 Gabung Bersama Tim Hebat Kami
               </h3>
-              <p className="text-xs text-indigo-200 mt-1 max-w-xl">
-                Halaman simulasi ini mewakili tampilan papan karir eksternal
-                perusahaan. Isilah berkas lamaran di bawah untuk menguji alur
-                pipeline otomatis masuk ke sistem ATS.
+              <p className="text-xs text-indigo-200 mt-1 max-w-xl relative z-10">
+                Isilah berkas lamaran di bawah untuk menguji alur pipeline
+                otomatis.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {activeOpenJobs.length === 0 ? (
-                <p className="text-xs text-slate-400 col-span-2 text-center py-6">
-                  Saat ini tidak ada lowongan yang aktif dibuka publik.
+                <p className="text-xs text-slate-400 col-span-1 md:col-span-2 text-center py-6">
+                  Tidak ada lowongan aktif.
                 </p>
               ) : (
                 activeOpenJobs.map((j) => (
                   <div
                     key={j.id}
-                    className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition-shadow"
+                    className="bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition-shadow"
                   >
                     <div>
                       <div className="flex items-start justify-between">
-                        <h4 className="font-bold text-slate-900 text-sm">
+                        <h4 className="font-bold text-slate-900 text-sm pr-2">
                           {j.title}
                         </h4>
-                        <span className="bg-indigo-50 text-indigo-700 text-[9px] font-bold px-2 py-0.5 rounded-md uppercase">
+                        <span className="bg-indigo-50 text-indigo-700 text-[9px] font-bold px-2 py-0.5 rounded-md uppercase shrink-0">
                           {j.department}
                         </span>
                       </div>
-                      <div className="flex gap-4 text-[10px] text-slate-400 font-bold mt-1.5">
+                      <div className="flex flex-wrap gap-2 md:gap-4 text-[10px] text-slate-400 font-bold mt-2">
                         <span>📍 {j.location}</span>
                         <span>💼 {j.type}</span>
                         <span>💰 {j.salary}</span>
@@ -1825,7 +1714,7 @@
                     <div className="mt-5 pt-3 border-t border-slate-100 flex justify-end">
                       <button
                         onClick={() => setApplyJob(j)}
-                        className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-[11px] px-3.5 py-2 rounded-xl transition-all"
+                        className="w-full md:w-auto bg-slate-900 hover:bg-slate-800 text-white font-bold text-[11px] px-3.5 py-2.5 rounded-xl transition-all"
                       >
                         Lamar Sekarang
                       </button>
@@ -1835,17 +1724,16 @@
               )}
             </div>
 
-            {/* Form Modal Simulasi Apply */}
             {applyJob && (
               <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in">
                 <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden border">
-                  <div className="p-5 border-b flex justify-between items-center bg-slate-50">
+                  <div className="p-4 md:p-5 border-b flex justify-between items-center bg-slate-50">
                     <div>
                       <h4 className="font-bold text-slate-900 text-sm">
-                        Kirim Berkas Lamaran
+                        Kirim Lamaran
                       </h4>
                       <p className="text-[11px] text-indigo-600 font-bold mt-0.5">
-                        Posisi: {applyJob.title}
+                        {applyJob.title}
                       </p>
                     </div>
                     <button
@@ -1857,16 +1745,15 @@
                   </div>
                   <form
                     onSubmit={handleFormSubmitApplication}
-                    className="p-5 space-y-4"
+                    className="p-4 md:p-5 space-y-4"
                   >
                     <div>
                       <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                        Nama Lengkap Pelamar
+                        Nama Lengkap
                       </label>
                       <input
                         name="cand_name"
                         required
-                        placeholder="Contoh: Wildan Fahmi"
                         className="w-full border p-2 rounded-xl text-xs outline-none focus:border-indigo-500"
                       />
                     </div>
@@ -1878,24 +1765,21 @@
                         type="email"
                         name="cand_email"
                         required
-                        placeholder="wildan@example.com"
                         className="w-full border p-2 rounded-xl text-xs outline-none focus:border-indigo-500"
                       />
                     </div>
                     <div>
                       <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                        Nomor Telepon/WhatsApp
+                        Nomor WA
                       </label>
                       <input
                         name="cand_phone"
                         required
-                        placeholder="081234..."
                         className="w-full border p-2 rounded-xl text-xs outline-none focus:border-indigo-500"
                       />
                     </div>
                     <div className="bg-slate-50 p-3 rounded-xl border border-dashed text-center text-[10px] text-slate-400 font-medium">
-                      📎 Simulasi Resume / Dokumen CV Otomatis Terbuat oleh
-                      Sistem
+                      📎 Resume Dibuat Otomatis
                     </div>
                     <div className="pt-2 flex justify-end gap-2">
                       <button
@@ -1932,7 +1816,6 @@
         addActivity,
       }) {
         const isEdit = modal.mode === "edit";
-
         const [title, setTitle] = useState(isEdit ? modal.data.title : "");
         const [dept, setDept] = useState(
           isEdit ? modal.data.department : "Engineering",
@@ -1954,138 +1837,96 @@
         );
         const [desc, setDesc] = useState(isEdit ? modal.data.description : "");
 
-        // AI INTEGRATION SIMULATION GENERATOR BOX
         const triggerAIGenerator = () => {
           if (!title) {
-            alert(
-              "Tolong ketikkan Judul Pekerjaan terlebih dahulu agar AI mengenali konteks deskripsi!",
-            );
+            alert("Isi Judul Pekerjaan dulu!");
             return;
           }
-          // Simulated AI payload responses dictionary
-          const aiRepo = {
-            frontend:
-              "Bertanggung jawab membangun UI interaktif berkinerja tinggi, berkolaborasi dengan tim backend API, mengoptimalkan rendering core web vitals, dan memastikan struktur penulisan kode komponen React/Vue bersih dan terdokumentasi.",
-            backend:
-              "Merancang arsitektur microservices kokoh, mengelola skalabilitas database PostgreSQL/MongoDB, mengoptimalkan query, membangun RESTful API/GraphQL aman, serta menjamin keandalan integrasi sistem cloud server.",
-            product:
-              "Menyusun roadmap taktis pengembangan produk, melakukan riset pasar dan kompetitor secara mendalam, menerjemahkan kebutuhan user menjadi PRD yang actionable, serta menyelaraskan visi bisnis antardepartemen.",
-            ui: "Membuat desain wireframe, mockup visual high-fidelity, prototype interaktif untuk kebutuhan usability testing, serta membangun komprehensif design system yang reusable bagi seluruh tim engineering.",
-          };
-
-          const key = title.toLowerCase();
-          let matchedText =
-            "Tugas mencakup analisis kebutuhan teknis, implementasi best practice industri, menjaga kualitas performa produk, dan berkontribusi aktif dalam kultur inovasi berkelanjutan di dalam tim.";
-
-          if (
-            key.includes("frontend") ||
-            key.includes("react") ||
-            key.includes("developer")
-          )
-            matchedText = aiRepo.frontend;
-          else if (
-            key.includes("backend") ||
-            key.includes("node") ||
-            key.includes("engineer")
-          )
-            matchedText = aiRepo.backend;
-          else if (key.includes("product") || key.includes("pm"))
-            matchedText = aiRepo.product;
-          else if (
-            key.includes("design") ||
-            key.includes("ux") ||
-            key.includes("ui")
-          )
-            matchedText = aiRepo.ui;
-
-          setDesc(`[AI Generated Description]:\n${matchedText}`);
-          triggerToast(
-            "AI berhasil mengenerate deskripsi pekerjaan yang cocok!",
+          setDesc(
+            `[AI Generated Description]:\nTugas mencakup analisis teknis dan implementasi produk untuk posisi ${title}.`,
           );
+          triggerToast("AI berhasil generate deskripsi!");
         };
 
         const handleSubmitForm = (e) => {
           e.preventDefault();
           if (isEdit) {
-            const updatedJobs = jobs.map((j) =>
-              j.id === modal.data.id
-                ? {
-                    ...j,
-                    title,
-                    department: dept,
-                    type,
-                    location: loc,
-                    experience: exp,
-                    salary,
-                    status,
-                    description: desc,
-                  }
-                : j,
+            setJobs(
+              jobs.map((j) =>
+                j.id === modal.data.id
+                  ? {
+                      ...j,
+                      title,
+                      department: dept,
+                      type,
+                      location: loc,
+                      experience: exp,
+                      salary,
+                      status,
+                      description: desc,
+                    }
+                  : j,
+              ),
             );
-            setJobs(updatedJobs);
-            triggerToast("Perubahan lowongan sukses disimpan.");
-            addActivity(`Lowongan "${title}" diperbarui oleh Admin`, "job");
+            triggerToast("Perubahan disimpan.");
           } else {
-            const newJ = {
-              id: Date.now(),
-              title,
-              department: dept,
-              type,
-              location: loc,
-              experience: exp,
-              salary,
-              status,
-              description: desc,
-              applicants: 0,
-              date: new Date().toISOString().split("T")[0],
-            };
-            setJobs([newJ, ...jobs]);
-            triggerToast("Lowongan baru berhasil dipublikasikan!");
-            addActivity(`Membuka lowongan pekerjaan baru: "${title}"`, "job");
+            setJobs([
+              {
+                id: Date.now(),
+                title,
+                department: dept,
+                type,
+                location: loc,
+                experience: exp,
+                salary,
+                status,
+                description: desc,
+                applicants: 0,
+                date: new Date().toISOString().split("T")[0],
+              },
+              ...jobs,
+            ]);
+            triggerToast("Lowongan dipublikasikan!");
           }
           setJobModal({ open: false, mode: "add", data: null });
         };
 
         return (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
-            <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden border border-slate-100 flex flex-col max-h-[90vh]">
-              <div className="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
-                  {isEdit
-                    ? `Edit Lowongan JOB-${modal.data.id}`
-                    : "Buka Lowongan Pekerjaan Baru"}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+            <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden border border-slate-100 flex flex-col max-h-[90vh] md:max-h-[85vh]">
+              <div className="p-4 md:p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider truncate pr-2">
+                  {isEdit ? `Edit JOB-${modal.data.id}` : "Buka Lowongan"}
                 </h3>
                 <button
                   onClick={() =>
                     setJobModal({ open: false, mode: "add", data: null })
                   }
-                  className="text-slate-400 hover:text-slate-700"
+                  className="text-slate-400 hover:text-slate-700 shrink-0"
                 >
                   <Icons.Close />
                 </button>
               </div>
-
               <form
                 onSubmit={handleSubmitForm}
-                className="p-6 space-y-4 overflow-y-auto custom-scroll flex-1 bg-slate-50/50"
+                className="p-4 md:p-6 space-y-4 overflow-y-auto custom-scroll flex-1 bg-slate-50/50"
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                      Judul Lowongan Kerja
+                      Judul Pekerjaan
                     </label>
                     <input
                       type="text"
                       required
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
-                      placeholder="Contoh: Senior React Developer"
-                      className="w-full border border-slate-200 p-2 rounded-xl text-xs outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 font-medium"
+                      className="w-full border border-slate-200 p-2 rounded-xl text-xs outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
                     />
                   </div>
                   <div>
                     <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                      Departemen Divisi
+                      Departemen
                     </label>
                     <select
                       value={dept}
@@ -2095,16 +1936,13 @@
                       <option value="Engineering">Engineering</option>
                       <option value="Product">Product</option>
                       <option value="Design">Design</option>
-                      <option value="Marketing">Marketing</option>
-                      <option value="HR / Operations">HR / Operations</option>
                     </select>
                   </div>
                 </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                      Tipe Kontrak
+                      Tipe
                     </label>
                     <select
                       value={type}
@@ -2112,79 +1950,72 @@
                       className="w-full border border-slate-200 p-2 rounded-xl text-xs bg-white font-medium outline-none"
                     >
                       <option value="Full-time">Full-time</option>
-                      <option value="Part-time">Part-time</option>
-                      <option value="Contract">Contract / Freelance</option>
-                      <option value="Internship">Internship</option>
+                      <option value="Contract">Contract</option>
                     </select>
                   </div>
                   <div>
                     <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                      Lokasi Kerja
+                      Lokasi
                     </label>
                     <input
                       type="text"
                       required
                       value={loc}
                       onChange={(e) => setLoc(e.target.value)}
-                      placeholder="Contoh: Jakarta (Hybrid)"
-                      className="w-full border border-slate-200 p-2 rounded-xl text-xs outline-none focus:bg-white font-medium"
+                      className="w-full border border-slate-200 p-2 rounded-xl text-xs outline-none font-medium"
                     />
                   </div>
                   <div>
                     <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                      Ekspektasi Gaji Bulanan
+                      Gaji
                     </label>
                     <input
                       type="text"
                       required
                       value={salary}
                       onChange={(e) => setSalary(e.target.value)}
-                      placeholder="Contoh: Rp 15M - 20M"
-                      className="w-full border border-slate-200 p-2 rounded-xl text-xs outline-none focus:bg-white font-medium"
+                      className="w-full border border-slate-200 p-2 rounded-xl text-xs outline-none font-medium"
                     />
                   </div>
                 </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                      Pengalaman Dibutuhkan
+                      Pengalaman
                     </label>
                     <input
                       type="text"
                       required
                       value={exp}
                       onChange={(e) => setExp(e.target.value)}
-                      placeholder="Contoh: Senior (3+ Tahun)"
-                      className="w-full border border-slate-200 p-2 rounded-xl text-xs outline-none focus:bg-white font-medium"
+                      className="w-full border border-slate-200 p-2 rounded-xl text-xs outline-none font-medium"
                     />
                   </div>
                   <div>
                     <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                      Status Publikasi
+                      Status
                     </label>
                     <select
                       value={status}
                       onChange={(e) => setStatus(e.target.value)}
                       className="w-full border border-slate-200 p-2 rounded-xl text-xs bg-white font-medium outline-none"
                     >
-                      <option value="Active">Aktif (Ditampilkan Publik)</option>
-                      <option value="Closed">Tutup (Arsip Internal)</option>
+                      <option value="Active">Aktif</option>
+                      <option value="Closed">Tutup</option>
                     </select>
                   </div>
                 </div>
-
                 <div>
-                  <div className="flex justify-between items-center mb-1">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-1">
                     <label className="text-[11px] font-bold text-slate-600">
-                      Deskripsi & Kualifikasi Kerja
+                      Deskripsi Pekerjaan
                     </label>
                     <button
                       type="button"
                       onClick={triggerAIGenerator}
-                      className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-[10px] font-bold px-2.5 py-1 rounded-lg border border-indigo-200 flex items-center gap-1 transition-all"
+                      className="bg-indigo-50 text-indigo-700 text-[10px] font-bold px-2.5 py-1.5 sm:py-1 rounded-lg border border-indigo-200 flex items-center justify-center gap-1 w-full sm:w-auto"
                     >
-                      <Icons.Sparkles /> Generate Otomatis dengan AI
+                      <Icons.Sparkles /> Generate Otomatis (AI)
                     </button>
                   </div>
                   <textarea
@@ -2192,26 +2023,24 @@
                     required
                     value={desc}
                     onChange={(e) => setDesc(e.target.value)}
-                    placeholder="Tuliskan cakupan tugas pekerjaan di sini..."
-                    className="w-full border border-slate-200 p-3 rounded-xl text-xs outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 font-medium font-mono"
+                    className="w-full border border-slate-200 p-3 rounded-xl text-xs outline-none focus:ring-2 focus:ring-indigo-500 font-medium font-mono"
                   />
                 </div>
-
-                <div className="pt-4 border-t border-slate-100 flex justify-end gap-2.5 bg-white -mx-6 -mb-6 p-4">
+                <div className="pt-4 border-t border-slate-100 flex justify-end gap-2.5 bg-white -mx-4 -mb-4 md:-mx-6 md:-mb-6 p-4 md:p-4 mt-auto">
                   <button
                     type="button"
                     onClick={() =>
                       setJobModal({ open: false, mode: "add", data: null })
                     }
-                    className="px-5 py-2 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-all"
+                    className="px-5 py-2 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl"
                   >
                     Batal
                   </button>
                   <button
                     type="submit"
-                    className="px-5 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-md transition-all"
+                    className="px-5 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-md"
                   >
-                    {isEdit ? "Simpan Perubahan" : "Publikasikan Lowongan"}
+                    {isEdit ? "Simpan" : "Publikasikan"}
                   </button>
                 </div>
               </form>
@@ -2221,7 +2050,7 @@
       }
 
       // ==========================================
-      // 8. DIALOG COMPONENT: CANDIDATE PRO COMPREHENSIVE DETAIL
+      // 8. DIALOG COMPONENT: CANDIDATE DETAIL
       // ==========================================
       function CandidateDetailModal({
         modal,
@@ -2239,49 +2068,36 @@
         const handleAddCommentNote = (e) => {
           e.preventDefault();
           if (!newNote.trim()) return;
-
-          const updated = candidates.map((c) => {
-            if (c.id === cand.id) {
-              return { ...c, notes: [...c.notes, `[Wildan F.]: ${newNote}`] };
-            }
-            return c;
-          });
-          setCandidates(updated);
-          // Sync preview live item injection update
+          setCandidates(
+            candidates.map((c) =>
+              c.id === cand.id
+                ? { ...c, notes: [...c.notes, `[Wildan F.]: ${newNote}`] }
+                : c,
+            ),
+          );
           cand.notes.push(`[Wildan F.]: ${newNote}`);
           setNewNote("");
-          triggerToast("Catatan evaluasi berhasil ditambahkan.");
+          triggerToast("Catatan ditambahkan.");
         };
 
-        // Automated Email Automation Templates Simulation
-        const simulatedEmailText = useMemo(() => {
-          if (emailType === "interview") {
-            return `Halo ${cand.name},\n\nTerima kasih telah melamar di RecruitSync. Kami mengundang Anda menghadiri sesi wawancara teknis. Mohon pilih slot waktu pada kalender terlampir.\n\nSalam,\nTim HR`;
-          }
-          return `Halo ${cand.name},\n\nSelamat! Kami sangat terkesan dengan portofolio Anda dan bermaksud menawarkan posisi resmi bergabung bersama kami. Surat Penawaran Kerja (Offering Letter) formal terlampir.\n\nSalam,\nWildan Fahmi`;
-        }, [emailType, cand]);
-
-        const handleSendSimulatedEmailAction = () => {
-          setEmailTemplateOpen(false);
-          triggerToast(
-            `Email Otomatis (${emailType.toUpperCase()}) sukses terkirim ke ${cand.email}!`,
-          );
-        };
+        const simulatedEmailText =
+          emailType === "interview"
+            ? `Halo ${cand.name},\nKami mengundang Anda wawancara...`
+            : `Halo ${cand.name},\nSelamat! Offering letter...`;
 
         return (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
-            <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden border flex flex-col max-h-[85vh]">
-              {/* Header Identity banner card */}
-              <div className="p-6 border-b bg-slate-900 text-white flex justify-between items-start">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-indigo-600 font-extrabold text-sm flex items-center justify-center text-white shadow-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+            <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden border flex flex-col max-h-[90vh] md:max-h-[85vh]">
+              <div className="p-4 md:p-6 border-b bg-slate-900 text-white flex justify-between items-start">
+                <div className="flex items-center gap-3 md:gap-4">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-indigo-600 font-extrabold text-sm flex items-center justify-center text-white shrink-0">
                     {cand.avatar}
                   </div>
                   <div>
-                    <h3 className="text-base font-bold tracking-tight">
+                    <h3 className="text-sm md:text-base font-bold tracking-tight">
                       {cand.name}
                     </h3>
-                    <p className="text-xs text-slate-400 font-medium mt-0.5">
+                    <p className="text-[10px] md:text-xs text-slate-400 font-medium mt-0.5">
                       {cand.role} •{" "}
                       <span className="text-indigo-400 font-bold">
                         Tahap {cand.stage}
@@ -2291,84 +2107,70 @@
                 </div>
                 <button
                   onClick={() => setCandModal({ open: false, data: null })}
-                  className="text-slate-400 hover:text-white transition-colors"
+                  className="text-slate-400 hover:text-white shrink-0"
                 >
                   <Icons.Close />
                 </button>
               </div>
 
-              {/* Main Tabs Body Contents layout splits */}
-              <div className="p-6 space-y-5 overflow-y-auto custom-scroll flex-1 bg-slate-50/50 text-xs">
-                {/* Profile Bio metadata grid links */}
+              <div className="p-4 md:p-6 space-y-4 overflow-y-auto custom-scroll flex-1 bg-slate-50/50 text-xs">
                 <div className="bg-white p-4 rounded-xl border border-slate-200/80 grid grid-cols-1 md:grid-cols-2 gap-3 font-medium text-slate-700">
-                  <p className="flex items-center gap-2">
+                  <p className="flex items-center gap-2 truncate">
                     ✉️ <strong>Email:</strong>{" "}
-                    <span className="text-slate-500 font-normal">
+                    <span className="text-slate-500 font-normal truncate">
                       {cand.email}
                     </span>
                   </p>
                   <p className="flex items-center gap-2">
-                    📞 <strong>Telepon:</strong>{" "}
+                    📞 <strong>Telp:</strong>{" "}
                     <span className="text-slate-500 font-normal">
                       {cand.phone}
                     </span>
                   </p>
                   <p className="flex items-center gap-2">
-                    📅 <strong>Tanggal Melamar:</strong>{" "}
+                    📅 <strong>Melamar:</strong>{" "}
                     <span className="text-slate-500 font-normal">
                       {cand.appliedDate}
                     </span>
                   </p>
-                  <p className="flex items-center gap-2">
-                    📄 <strong>Resume Dokumen:</strong>{" "}
-                    <span className="text-indigo-600 hover:underline cursor-pointer font-bold">
-                      Lihat CV_Budi_Santoso.pdf
-                    </span>
-                  </p>
                 </div>
 
-                {/* Action Operations Command Automation Row buttons */}
-                <div className="flex flex-wrap gap-2 pt-1">
+                <div className="flex flex-col sm:flex-row gap-2 pt-1">
                   <button
                     onClick={() => {
                       setCandModal({ open: false, data: null });
                       setSchedModal({ open: true, candidate: cand });
                     }}
-                    className="bg-amber-600 hover:bg-amber-700 text-white font-bold px-3 py-2 rounded-xl flex items-center gap-1.5 shadow-sm transition-all"
+                    className="w-full sm:w-auto justify-center bg-amber-600 hover:bg-amber-700 text-white font-bold px-3 py-2.5 rounded-xl flex items-center gap-1.5 shadow-sm"
                   >
-                    📅 Hubungkan Jadwal Wawancara
+                    📅 Atur Jadwal
                   </button>
                   <button
-                    onClick={() => {
-                      setEmailTemplateOpen(!emailTemplateOpen);
-                    }}
-                    className="bg-white border border-slate-300 hover:bg-slate-100 font-bold px-3 py-2 rounded-xl text-slate-700 flex items-center gap-1.5 transition-all"
+                    onClick={() => setEmailTemplateOpen(!emailTemplateOpen)}
+                    className="w-full sm:w-auto justify-center bg-white border border-slate-300 hover:bg-slate-100 font-bold px-3 py-2.5 rounded-xl text-slate-700 flex items-center gap-1.5"
                   >
-                    ✉️ Kirim Email Otomatis (Automation Hub)
+                    ✉️ Email Otomatis
                   </button>
                 </div>
 
-                {/* Email Trigger Panel (Sub-Drawer toggled context logic) */}
                 {emailTemplateOpen && (
                   <div className="bg-indigo-50 border border-indigo-200 p-4 rounded-xl space-y-3 animate-fade-in">
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-indigo-950">
-                        Draft Template Email Otomatis Berdasarkan Trigger
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                      <span className="font-bold text-indigo-950 text-[10px] md:text-xs">
+                        Template Email
                       </span>
                       <div className="flex gap-2">
                         <button
-                          type="button"
                           onClick={() => setEmailType("interview")}
-                          className={`px-2 py-0.5 font-bold rounded text-[10px] ${emailType === "interview" ? "bg-indigo-600 text-white" : "bg-white text-slate-600"}`}
+                          className={`px-2 py-1 font-bold rounded text-[10px] flex-1 sm:flex-none ${emailType === "interview" ? "bg-indigo-600 text-white" : "bg-white text-slate-600"}`}
                         >
-                          Undangan Wawancara
+                          Undangan
                         </button>
                         <button
-                          type="button"
                           onClick={() => setEmailType("offer")}
-                          className={`px-2 py-0.5 font-bold rounded text-[10px] ${emailType === "offer" ? "bg-indigo-600 text-white" : "bg-white text-slate-600"}`}
+                          className={`px-2 py-1 font-bold rounded text-[10px] flex-1 sm:flex-none ${emailType === "offer" ? "bg-indigo-600 text-white" : "bg-white text-slate-600"}`}
                         >
-                          Offering Letter
+                          Offering
                         </button>
                       </div>
                     </div>
@@ -2380,26 +2182,27 @@
                     />
                     <div className="flex justify-end">
                       <button
-                        type="button"
-                        onClick={handleSendSimulatedEmailAction}
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg"
+                        onClick={() => {
+                          setEmailTemplateOpen(false);
+                          triggerToast("Email sukses terkirim!");
+                        }}
+                        className="bg-indigo-600 text-white font-bold px-3 py-1.5 rounded-lg w-full sm:w-auto"
                       >
-                        Kirim Email Sekarang
+                        Kirim Sekarang
                       </button>
                     </div>
                   </div>
                 )}
 
-                {/* Chronological Evaluator Internal Notes List Section */}
                 <div className="space-y-2">
                   <h4 className="font-bold text-slate-900 uppercase text-[10px] tracking-wider">
-                    Catatan Evaluasi Tim Reviewer
+                    Catatan Evaluasi
                   </h4>
                   <div className="bg-white rounded-xl border border-slate-200/80 divide-y divide-slate-100 max-h-[160px] overflow-y-auto custom-scroll">
                     {cand.notes.map((note, index) => (
                       <div
                         key={index}
-                        className="p-3 font-medium text-slate-700 leading-relaxed"
+                        className="p-3 font-medium text-slate-700"
                       >
                         {note}
                       </div>
@@ -2407,21 +2210,23 @@
                   </div>
                 </div>
 
-                {/* Form Input comment logger */}
-                <form onSubmit={handleAddCommentNote} className="flex gap-2">
+                <form
+                  onSubmit={handleAddCommentNote}
+                  className="flex flex-col sm:flex-row gap-2 mt-auto"
+                >
                   <input
                     type="text"
                     required
-                    placeholder="Tambahkan feedback / hasil review teknis..."
+                    placeholder="Tambahkan feedback..."
                     value={newNote}
                     onChange={(e) => setNewNote(e.target.value)}
-                    className="flex-1 border border-slate-200 p-2 rounded-xl outline-none focus:bg-white focus:ring-1 focus:ring-indigo-500 font-medium"
+                    className="flex-1 border border-slate-200 p-2 rounded-xl outline-none focus:ring-1 focus:ring-indigo-500 font-medium w-full"
                   />
                   <button
                     type="submit"
-                    className="bg-slate-900 hover:bg-slate-800 text-white font-bold px-4 rounded-xl"
+                    className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white font-bold px-4 py-2.5 sm:py-2 rounded-xl"
                   >
-                    Simpan Note
+                    Simpan
                   </button>
                 </form>
               </div>
@@ -2431,7 +2236,7 @@
       }
 
       // ==========================================
-      // 9. DIALOG COMPONENT: SCHEDULE INTERVIEW POPUP
+      // 9. DIALOG COMPONENT: SCHEDULE INTERVIEW
       // ==========================================
       function ScheduleInterviewModal({
         modal,
@@ -2445,53 +2250,53 @@
         const handleFormSubmitSchedule = (e) => {
           e.preventDefault();
           const fd = new FormData(e.target);
-
-          const newInv = {
-            id: Date.now(),
-            candidateId: cand.id,
-            candidateName: cand.name,
-            jobTitle: cand.role,
-            date: fd.get("inv_date"),
-            time: fd.get("inv_time"),
-            interviewer: fd.get("inv_user"),
-            type: fd.get("inv_format"),
-            status: "Scheduled",
-          };
-
-          setInterviews([newInv, ...interviews]);
-          triggerToast(`Sukses membuat jadwal wawancara untuk ${cand.name}!`);
+          setInterviews([
+            {
+              id: Date.now(),
+              candidateId: cand.id,
+              candidateName: cand.name,
+              jobTitle: cand.role,
+              date: fd.get("inv_date"),
+              time: fd.get("inv_time"),
+              interviewer: fd.get("inv_user"),
+              type: fd.get("inv_format"),
+              status: "Scheduled",
+            },
+            ...interviews,
+          ]);
+          triggerToast(`Jadwal untuk ${cand.name} berhasil dibuat!`);
           setSchedModal({ open: false, candidate: null });
         };
 
         return (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
             <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden border">
-              <div className="p-5 border-b flex justify-between items-center bg-slate-50">
+              <div className="p-4 md:p-5 border-b flex justify-between items-center bg-slate-50">
                 <h4 className="font-bold text-slate-900 text-xs uppercase tracking-wider">
-                  Atur Jadwal Wawancara Baru
+                  Atur Jadwal
                 </h4>
                 <button
                   onClick={() =>
                     setSchedModal({ open: false, candidate: null })
                   }
-                  className="text-slate-400 hover:text-slate-700"
+                  className="text-slate-400"
                 >
                   <Icons.Close />
                 </button>
               </div>
               <form
                 onSubmit={handleFormSubmitSchedule}
-                className="p-5 space-y-4 text-xs"
+                className="p-4 md:p-5 space-y-4 text-xs"
               >
                 <div>
                   <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                    Nama Kandidat Terpilih
+                    Kandidat
                   </label>
                   <input
                     type="text"
                     readOnly
                     value={cand.name}
-                    className="w-full border p-2 rounded-xl bg-slate-100 font-bold text-slate-800 outline-none"
+                    className="w-full border p-2 rounded-xl bg-slate-100 font-bold text-slate-800"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
@@ -2503,53 +2308,45 @@
                       type="date"
                       required
                       name="inv_date"
-                      defaultValue="2026-06-01"
-                      className="w-full border p-2 rounded-xl outline-none font-medium"
+                      className="w-full border p-2 rounded-xl"
                     />
                   </div>
                   <div>
                     <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                      Waktu Sesi (WIB)
+                      Waktu
                     </label>
                     <input
                       type="time"
                       required
                       name="inv_time"
-                      defaultValue="13:00"
-                      className="w-full border p-2 rounded-xl outline-none font-medium"
+                      className="w-full border p-2 rounded-xl"
                     />
                   </div>
                 </div>
                 <div>
                   <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                    User Tim Penilai (Interviewer)
+                    Pewawancara
                   </label>
                   <input
                     type="text"
                     required
                     name="inv_user"
-                    placeholder="Contoh: Wildan (Tech Lead)"
-                    defaultValue="Wildan (HR Manager)"
-                    className="w-full border p-2 rounded-xl outline-none font-medium"
+                    defaultValue="HR Manager"
+                    className="w-full border p-2 rounded-xl"
                   />
                 </div>
                 <div>
                   <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                    Format Pertemuan
+                    Format
                   </label>
                   <select
                     name="inv_format"
-                    className="w-full border p-2 rounded-xl bg-white outline-none font-medium"
+                    className="w-full border p-2 rounded-xl bg-white"
                   >
-                    <option value="Virtual">
-                      Google Meet (Virtual Online)
-                    </option>
-                    <option value="In-Person">
-                      On-Site Office (Tatap Muka)
-                    </option>
+                    <option value="Virtual">Virtual Online</option>
+                    <option value="In-Person">Tatap Muka</option>
                   </select>
                 </div>
-
                 <div className="pt-2 flex justify-end gap-2">
                   <button
                     type="button"
@@ -2562,7 +2359,7 @@
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 text-white bg-indigo-600 hover:bg-indigo-700 font-bold rounded-xl shadow-md"
+                    className="px-4 py-2 text-white bg-indigo-600 rounded-xl shadow-md"
                   >
                     Simpan & Undang
                   </button>
@@ -2592,7 +2389,6 @@
         );
       }
 
-      // Final Assembly DOM Mounting execution
       const container = document.getElementById("root");
       const rootSystem = ReactDOM.createRoot(container);
       rootSystem.render(<App />);
