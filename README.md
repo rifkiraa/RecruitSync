@@ -53,12 +53,9 @@ Karena tidak ada sistem _backend_ atau rantai _build_ (build-chain) yang diperlu
 
 ## 📸 Tangkapan Layar (Screenshots)
 
-_(Opsional: Anda dapat mengganti tautan gambar di bawah dengan screenshot asli aplikasi Anda saat diunggah ke GitHub)_
-
 |                          Dashboard HR Admin                          |                             Dashboard Interviewer                              |
 | :------------------------------------------------------------------: | :----------------------------------------------------------------------------: |
-| `<img src="assets/hradmin.png" width="400" alt="Dashboard Admin" />` | `<img src="assets/interviewer.png" width="400" alt="Dashboard Interviewer" />` |
+| <img width="1366" height="607" alt="hradmin" src="https://github.com/user-attachments/assets/d27ba291-0439-4059-8131-3a37e422b81a" /> | <img width="1366" height="607" alt="interviewer" src="https://github.com/user-attachments/assets/2ab7bc17-7262-4f53-87e0-84aa0cddb242" />
+ |
 
 ---
-
-_Dibuat untuk portofolio pengembangan UI/UX dan rekayasa Frontend._
